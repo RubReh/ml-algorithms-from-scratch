@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 '''
 Implementation of least squares linear regression using stochastic gradient descent
@@ -114,5 +115,15 @@ x = np.array([1, 2, 3, 4])
 y = np.array([1, 2, 3, 4])
 
 test = LinearRegression(x, y)
-print(test.stochastic_gradient_descent())
+slope, intercept = test.stochastic_gradient_descent()
+print(slope, intercept)
 print(test.get_error())
+
+# Plot the data and the predicted line to see the fit
+plt.scatter(x,y)
+
+y_pred = slope*x + intercept
+plt.plot(x, y_pred)
+plt.show()
+
+
