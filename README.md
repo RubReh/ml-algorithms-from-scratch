@@ -8,4 +8,4 @@ In order to understand the underlying functionality of some common machine learn
 
 ## Linear Regression
 
-![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/linear_regression.png.png)
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/linear_regression.png)
