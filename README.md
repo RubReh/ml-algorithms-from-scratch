@@ -3,4 +3,5 @@ In order to understand the underlying functionality of some common machine learn
 
 
 ## K means clustering
-https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/kmeanscluster.png
+
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/kmeanscluster.png)
