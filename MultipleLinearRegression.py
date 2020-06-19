@@ -116,9 +116,9 @@ class MultipleLinearRegression:
 
 
 # Fake some data in R3
-x1 = np.array([1, 2, 3, 4, 5, 6])
+x1 = np.array([0, 1, 2, 3, 4, 5])
 x2 = np.array([0, 0, 0, 0, 0, 0])
-y = np.array([1, 2, 3, 4, 5, 6])
+y = np.array([0, 1, 2, 3, 4, 5])
 
 
 classifier = MultipleLinearRegression(np.array([x1, x2, y]))
