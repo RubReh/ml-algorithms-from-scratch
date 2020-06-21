@@ -29,72 +29,59 @@ many features the feature vector x holds.)
 
 We can derive an expression for the width using the vectors on the boundary of the street like so:
 
-(x+ - x-) dot_product w / || w ||. (1)
+
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_1.png)
 
 This comes from the fact that the dot product projects the vector x+ -  x- on a vector that is normal to the separation line.
 w is chosen to be such a vector, but we normalize it in order to get a unit vector in the direction of w. The result is the width 
 of the street. This is the expression we want to maximize. But we have other constraints that must hold.
 
 Let's say we have a sample x. The rule we use to decide if that it is a + sample is:
+
+
 w dot_product x + b >= 0. Again this comes from the fact that w is a normal vector to the line and if we project the feature vector onto
 w we get a length that is either larger than some constant b or smaller than it.
 
-Furthermore, we decide that for a plus sample, x+, this holds:
+Furthermore, we decide that for a plus sample and minus sample, this holds:
 
-w dot_product x+ + b >= 1
-
-And for a minus sample this holds:
-
-w dot_product x- + b <= -1 
-
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_2.png)
 
 To merge these two equations into something more condense, we multiply the left side of the equations by yi, such
 that yi is -1 for a minus sample, and +1 for a - sample.
 
 Thus we get the two equations:
 
-yi*(w dot_product x- + b) <= -1
-yi*(w dot_product x+ + b) >= 1
+
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_3.png)
+
 
 Now we see that given the properties of yi for each sample type we get that a common rule rule holds for a given x sample xi:
+We can also move the 0 to the left side giving us: 
 
-yi*(w dot_product xi + b) >=1 (3)
 
-We can move the 0 to the left side giving us: 
-
-yi*(w dot_product xi + b) -1 >=0 (4)
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_4.png)
 
 Moreover we say that if a sample is on the boundary of the street (the support vectors that is) we say that (4)
-is exactly 0. So if xi on boundary:
+is exactly 0 which we'll use later.
 
-yi*(w dot_product xi + b) -1 =0 (5)
+Now we use y's properties and (5) in (1). If x is a plus (minus) sample yi = 1 (-1) which gives that:
 
-Now we use yi:s properties and (5) in (1). If x is a plus (minus) sample yi = 1 (-1) which gives that:
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_5.png)
 
-w dot_product x+  = 1 - b
+Put this into (1) and we get that the width we're after can be expressed as:
 
-and w dot_product x- = 1 + b
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_6.png)
 
-Put this into (1) and we get that the width of the lane is:
 
-seperation_width = 2 / || w ||. 
-
-This is what we want to maximize. Which means that we want to minimize || w ||. Which means that we
-want to minimize (1/2)/ || w || ^2
-
-The reframing of what we minimize is used to simplify the derivatives later on by the way (you'll see).
-We now have a minimization problem under some constraints. We can say:
-
-We want to minimize (1/2)/ || w || ^ 2 under the constraint that yi*(w dot_product xi + b) -1 = 0. This calls for La Grange multipliers giving us the
+The reframing of what we minimize is used to simplify the derivatives later on by the way (you'll see this later).
+We now have a minimization problem under some constraints. This calls for La Grange multipliers giving us the
 following La Grange function:
 
-L = (1/2)/ || w || ^ 2 - sum[lambai * (yi*(w dot_product xi + b) - 1)]
+![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_7.png)
 
 This is close to an expression we can ge the gradient of with respect to w and b and use stochastic gradient descent on.
 
 ### How should we update the SGD?
-
-L = (1/2)/ || w || ^ 2 - sum[lambai * (yi*(w dot_product xi + b) - 1)]
 
 We need to take account of two things now. The first term in L is trying to minimize || w || and the second term 
 keeps track of our misclassification error. From our decision rule we see that if a sample is correctly
@@ -104,13 +91,16 @@ Thus, if this expression evaluates to 0 or less we pin it to 0 since no error ha
 However, if (yi*(w dot_product xi + b) - 1) is larger than 0 it means it's misclassified. Then we use it to update
 our w and b using SGD.
 
-So we get two different gradients to use in SGD:
+So we get two different gradients to use in SGD depending on how a sample i classified
 
-grad(L) = w if  (yi*(w dot_product xi + b) - 1) <= 0
-
-or grad(L) = w + lambai * yi*xi
  
-
+ ![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_8.png)
+ 
+ and
+ 
+ 
+ ![](https://github.com/RubReh/ml-algorithms-from-scratch/blob/master/images/equation_9.png)
+ 
 
  Math source courtesy of MIT.
  https://www.youtube.com/watch?v=_PwhiWxHK8o
